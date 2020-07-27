@@ -1,0 +1,34 @@
+name: Build NodeJS application
+on:
+    push:
+        branches:
+            - master
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix: 
+                node: [ 10, 12, 14 ]
+
+        name: Build application with NodeJS ${{ matrix.node }}
+        
+        steps:
+            - name: Checkout repo
+              uses: action/checkout@v2
+            - name: Setup node
+              uses: actions/setup-node@v2-beta
+                with:
+                    node-version: {{ matrix.node }}
+            - name: Get npm cache directory
+              id: npm-cache
+              run: |
+                echo "::set-output name=dir::$(npm config get cache)"
+            - name: Cache Dependencies
+              id: cache-depdencies-{{ matrix.node }}
+              uses: actions/cache@v2
+              with:
+                path: ${{ steps.npm-cache.outputs.dir }}
+                key: ${{ runner.os }}-${{ matrix.node }}-dependencies-${{ hashFiles('**/package-lock.json') }}
+            - name: Run npm install
+              run: npm install

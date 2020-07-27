@@ -1,0 +1,25 @@
+{
+  "name": "nlstn.sh",
+  "version": "1.0.0",
+  "description": "URL Shortener",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nlstn/nlstn.sh"
+  },
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon src/"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "helmet": "^3.23.3",
+    "monk": "^7.3.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
