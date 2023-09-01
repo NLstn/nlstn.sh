@@ -60,7 +60,13 @@ async function initExpress() {
                 res.status(400).json({message: 'url parameter missing'});
                 return;
             }
-    
+            
+            const existing = await Short.findOne({ name: name });
+            if(existing) {
+                res.status(409).json({message: 'name already exists'});
+                return;
+            }
+
             const short = new Short({ name: name, url: url });
             await short.save();
     
