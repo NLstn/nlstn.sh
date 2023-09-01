@@ -48,7 +48,7 @@ async function initExpress() {
         }
     });
 
-    app.post('/register', async (req, res) => {
+    app.post('/short', async (req, res) => {
         try {
             const name = req.query.name;
             if(!name) {
@@ -69,7 +69,24 @@ async function initExpress() {
             res.status(500).send('Internal Server Error');
             console.log(err);
         }
-    })
+    });
+
+    app.delete('/short', async (req, res) => {
+        try {
+            const name = req.query.name;
+            if(!name) {
+                res.status(400).json({message: 'name parameter missing'});
+                return;
+            }
+
+            await Short.deleteOne({ name: req.query.name });
+            console.log('Deleted ' + name);
+            res.status(204).send();
+        } catch(err) {
+            res.status(500).send('Internal Server Error');
+            console.log(err);
+        }
+    });
 
     return app;
 }
